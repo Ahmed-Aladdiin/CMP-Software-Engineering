@@ -21,6 +21,16 @@ exports.deleteEmployee = async (req, res, next) => {
 // TODO
 exports.createEmployee = async (req, res, next) => {
   const { name, id } = req.body;
+
+  if (!id || !name) {
+    return res.status(400).json({message: "Missing parameters"});
+  }
+
+  const indx = employee.findIndex((e) => e.id === id);
+  if (indx >= 0) {
+    return res.status(400).json({message: "Id already exist"});
+  }
+
   employee.push({ id: id, name: name });
-  res.status(201);
+  res.status(201).json({message: "Created Successfully"});
 };

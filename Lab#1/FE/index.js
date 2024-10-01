@@ -33,7 +33,10 @@ function fetchEmployees() {
 // TODO
 // add event listener to submit button
 const submitBtn = document.querySelector("#submit-btn");
-submitBtn.addEventListener("click", () => createEmployee());
+submitBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  createEmployee();
+});
 
 // TODO
 // add event listener to delete button
@@ -58,7 +61,15 @@ function createEmployee() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: name, id: id }),
-  }).then((_) => fetchEmployees());
+  })
+  .then(res => {
+    return res.json();
+  })
+  .then(res => {
+    fetchEmployees();
+    alert(res['message'])
+  })
+  .catch(e => console.log('Error: ' + e));
 }
 
 // TODO
